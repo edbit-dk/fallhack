@@ -14,7 +14,7 @@ The main focus of the project is to educate about internet and terminal history 
 - RobCo = Robot & Computer Industries (RobCom Industries)
 - General Atomics + Poseidon Energy = Global Energy Company (GEC Corp)
 - PoseidoNET = DEFCOM-NET
-- West-Tek = Defense & Communication Industries (DEF-COM Industries)
+- West-Tek = Defense & Communication Industries (DEFCOM Industries)
 - Repconn =  Space Helix Industries (SpaceH Industries) 
 - The Calculator = The Colossus
 
