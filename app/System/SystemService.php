@@ -50,11 +50,12 @@ class SystemService
             echo <<< EOT
             Security Access Code Sequence Accepted.
 
-            Welcome to PrometoNet
+            Welcome to DEFCOM-NET
 
             Connecting...
             Authenticating $remote_ip...
             Accessing...
+            Searching...
             EOT;
             exit;
 
@@ -86,7 +87,7 @@ class SystemService
         Session::set($code, $access_code);
 
         echo <<< EOT
-        Uplink with central PrometoNet initiated.
+        Uplink with central DEFCOM-NET initiated.
         Enter Security Access Code Sequence:
         
         {$access_code}
@@ -104,14 +105,16 @@ class SystemService
         $hosts = Host::count();
 
         echo <<< EOT
+        Connected to DEFCOM-NET port {$port}
+
         WELCOME TO ROBCOM INDUSTRIES (TM) TERMLINK
-        
-        Connected to PrometoNet port {$port}
+        GLOBAL DEFENSE & COMMUNICATION NETWORK
          
         Local time is {$date}. 
         Last update to network was on April 4th, 1984.
+        
         There are {$users} local users. 
-        There are {$hosts} nodes on the network.
+        There are {$hosts} active comlinks on the network.
 
         More commands available after LOGON. 
         Type HELP for a detailed command list.

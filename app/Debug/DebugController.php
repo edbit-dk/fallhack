@@ -24,11 +24,11 @@ class DebugController extends AppController
         Dump::words(wordlist(strlen( $host_password), Host::level(), 'password_list.txt'));
         Dump::correct([$host_admin,  $host_password]);
     
+        $header = "ROBCOM INDUSTRIES (TM) TERMLINK PROTOCOL\nENTER PASSWORD NOW";
 
         if($input = $this->data) {
             $attemptsLeft = 4 - count(Dump::data());
-            $header = "ROBCOM INDUSTRIES (TM) TERMLINK PROTOCOL\nENTER PASSWORD NOW";
-            $header .= "ATTEMPT(S) LEFT: $attemptsLeft\n\n";
+            $header .= "\nAttempt(s) Left: $attemptsLeft\n\n";
         
         if($input == 'reset') {
                 Dump::reset();
