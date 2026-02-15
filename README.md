@@ -11,20 +11,20 @@ The main focus of the project is to educate about internet and terminal history 
 - ZAX = VAX/OS (Virtual Advanced eXecution Operating System)
 - Maineframe = MV/OS (Mainframe Virtual Operating System)
 - The Enclave = The SysCorp Syndicate (SCS) 
-- IBM = International Data Machines (IDM Corp)
-- Vault-Tec = Control & Security Systems (Con-Sec Corp - CSC)
-- RobCo = Robot & Computer Industries (RobCom Industries)
-- General Atomics + Poseidon Energy = General Energy Company Group (GEC Corp)
+- IBM = International Data Machines Corp. (IDM)
+- Vault-Tec = Corporate Security Systems Corp. (CSC)
+- RobCo = Robot & Computer Industries (RCI)
+- General Atomics + Poseidon Energy = General Energy Company Corp. (GEC)
 - PoseidoNET = DEFCOM-NET, GEC-NET, NEURAL-NET, SYSCORP-NET
-- West-Tek = Defense & Communications Solutions (DEF-COM)
+- West-Tek = Defense & Communications Industries (DFC)
 - Repconn =  Space HeliX Ventures (SpaceH) 
 - The Calculator = The Colossus
-- The Institute = Control & Automation Industries (CAI)
+- The Institute = Computation & Automation Industries (CAI)
 
 # World Structure 
 SCS (SYSCORP-NET)
-- CAI (VAX/OS, cAI, NEURAL-NET)
-- CSC (cAI, VAX/OS, CONSEC-NET)
+- CAI (VAX/OS, Colossus, NEURAL-NET)
+- CSC (CAI, VAX/OS, CONSEC-NET)
 - DFC (VAX/OS, DEFCOM-NET)
 - GEC (IDM, SpaceH, (M)V/OS, RobCom, GEC-NET)
 
