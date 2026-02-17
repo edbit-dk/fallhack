@@ -48,11 +48,9 @@ class SystemService
             $remote_ip = remote_ip();
 
             echo <<< EOT
-            UPLINK WITH CENTRAL NETWORK INITIATED... 
+            UPLINK WITH NETWORK INITIATED... 
 
             SUCCESS: SECURITY ACCESS CODE SEQUENCE ACCEPTED
-
-            AUTHORIZING $remote_ip...
             EOT;
             exit;
 
@@ -69,7 +67,7 @@ class SystemService
 
             } else {
                 echo <<< EOT
-                UPLINK WITH CENTRAL NETWORK INITIATED... 
+                UPLINK WITH NETWORK INITIATED... 
 
                 ERROR: ACCESS DENIED
                 EOT;
@@ -86,12 +84,21 @@ class SystemService
         Session::set($code, $access_code);
 
         echo <<< EOT
-        THIS TERMINAL ALLOWS ACCESS TO CENTRAL NETWORK
-        ______________________________________________
+        PROPERTY OF GENERAL ENERGY COMPANY (GEC CORP)
+        _____________________________________________
+
+        THIS TERMINAL IS USED TO INPUT COMMAND DATA 
+        FOR EMPLOYEES ASSIGNED TO THE GEC CORPORATION. 
+        UNAUTHORIZED USE IS A VIOLATION OF CORPORATE 
+        STATUTE 19-84.
+
+        THIS TERMINAL ALSO ALLOWS ACCESS TO GEC-NET 
+        VIA DEFCOM-NET GATEWAY.
 
         ENTER SECURITY ACCESS CODE SEQUENCE: 
         
         [ {$access_code} ]
+
         EOT;
     }
 
@@ -103,8 +110,11 @@ class SystemService
         $date = strtoupper(date('F jS, Y',));
 
         echo <<< EOT
-        WELCOME TO ROBCOM INDUSTRIES (TM) TERMLINK $port
+        CONNECTED TO GEC-NET PORT $port
         $date
+
+
+        WELCOME TO ROBCOM INDUSTRIES (TM) TERMLINK
         __________________________________________
 
         EOT;

@@ -83,7 +83,7 @@ $('#command-input').keydown(function(e) {
 document.getElementById('play-button').addEventListener('click', toggleMusic);
 
 // Function to handle redirect
-function handleResponse(response, timeout = 1000) {
+function handleResponse(response, timeout = 3000) {
 
     // Rens responsen for eventuelle skjulte tegn
     const cleanResponse = response.trim();
@@ -108,12 +108,15 @@ function handleResponse(response, timeout = 1000) {
 }
 
 // Function to redirect to a specific query string
-function redirectTo(url, reload = false) {
+function redirectTo(url, reload = false, timeout = 2500) {
     if(reload) {
         return window.location.href = url;
     }
     //clearTerminal();
-    sendCommand('main', '');
+    setTimeout(function() { 
+        clearTerminal();
+        sendCommand('main', ''); 
+    }, timeout);
     //$('#connection').load('connection');
 }
 
