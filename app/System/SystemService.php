@@ -48,7 +48,6 @@ class SystemService
             $remote_ip = remote_ip();
 
             echo <<< EOT
-            UPLINK WITH NETWORK INITIATED... 
 
             SUCCESS: SECURITY ACCESS CODE SEQUENCE ACCEPTED
             EOT;
@@ -67,7 +66,6 @@ class SystemService
 
             } else {
                 echo <<< EOT
-                UPLINK WITH NETWORK INITIATED... 
 
                 ERROR: ACCESS DENIED
                 EOT;
@@ -85,16 +83,14 @@ class SystemService
 
         echo <<< EOT
         PROPERTY OF GENERAL ENERGY COMPANY (GEC CORP)
-        _____________________________________________
+        ______________________________________________
 
         THIS TERMINAL IS USED TO INPUT COMMAND DATA 
-        FOR EMPLOYEES ASSIGNED TO THE GEC CORPORATION. 
-        UNAUTHORIZED USE IS A VIOLATION OF CORPORATE 
-        STATUTE 19-84.
+        FOR AUTHORIZED EMPLOYEES ASSIGNED TO 
+        THE GEC CORPORATION. THIS TERMINAL ALSO ALLOWS 
+        ACCESS TO GEC-NET VIA THE DEFCOM-NET GATEWAY.
 
-        THIS TERMINAL ALSO ALLOWS ACCESS TO GEC-NET 
-        VIA DEFCOM-NET GATEWAY.
-
+        UPLINK WITH CENTRAL GEC-NET INITIATED.
         ENTER SECURITY ACCESS CODE SEQUENCE: 
         
         [ {$access_code} ]

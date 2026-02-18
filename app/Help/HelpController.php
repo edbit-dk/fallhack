@@ -31,7 +31,7 @@ class HelpController extends AppController
 
                 echo "$cmd $input\n";
             }
-            echo "\nhelp {$page}/{$total}\n";
+            echo "\nHELP {$page}/{$total}\n";
 
             exit;
 
@@ -42,7 +42,7 @@ class HelpController extends AppController
             $help = Help::search($this->data, $type);
 
             if(empty($help)) {
-                echo 'ERROR: Unknown Command.';
+                echo 'ERROR: UNKNOWN COMMAND';
                 exit;
             }
 

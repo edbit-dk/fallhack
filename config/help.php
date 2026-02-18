@@ -3,8 +3,8 @@
 return [
     [
         'cmd' => 'HELP', 
-        'input' => '[cmd|page]', 
-        'info' => 'shows info about command',
+        'input' => '[CMD|PAGE]', 
+        'info' => 'SHOWS INFO ABOUT COMMAND',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 1,
@@ -12,8 +12,8 @@ return [
     ],
     [
         'cmd' => 'UPLINK', 
-        'input' => '<access code>', 
-        'info' => 'uplink to network',
+        'input' => '[ACCESS CODE]', 
+        'info' => 'CONNECT TO GLOBAL NETWORK',
         'is_user' => 0,
         'is_host' => 0,
         'is_visitor' => 1,
@@ -21,8 +21,8 @@ return [
     ],
     [
         'cmd' => 'REGISTER', 
-        'input' => '<username>', 
-        'info' => 'create account',
+        'input' => '[USERNAME]', 
+        'info' => 'NEW ACCOUNT',
         'is_user' => 0,
         'is_host' => 0,
         'is_visitor' => 1,
@@ -30,8 +30,8 @@ return [
     ],
     [
         'cmd' => 'LOGON', 
-        'input' => '<username>', 
-        'info' => 'login (alias: logon) ',
+        'input' => '[USERNAME]', 
+        'info' => 'LOGON ACCOUNT',
         'is_user' => 0,
         'is_host' => 0,
         'is_visitor' => 1,
@@ -40,7 +40,7 @@ return [
     [
         'cmd' => 'LOGOUT', 
         'input' => NULL, 
-        'info' => 'leave host/node (alias: exit, dc, quit, close) ',
+        'info' => 'DISCONNECT FROM MAINFRAME (ALIAS: EXIT, DC, QUIT, CLOSE)',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 0,
@@ -49,7 +49,7 @@ return [
     [
         'cmd' => 'VERSION', 
         'input' => NULL, 
-        'info' => 'SysCorpOS V.1.9.84',
+        'info' => 'SysCorp/OS V.1.9.84',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 1,
@@ -57,8 +57,8 @@ return [
     ],
     [
         'cmd' => 'MUSIC', 
-        'input' => '<start|stop|next>', 
-        'info' => 'play 80s music',
+        'input' => '[START|STOP|NEXT]', 
+        'info' => 'PLAY 80S MUSIC',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 1,
@@ -66,8 +66,8 @@ return [
     ],
     [
         'cmd' => 'COLOR', 
-        'input' => '<green|white|yellow|blue>', 
-        'info' => 'terminal color',
+        'input' => '[GREEN|WHITE|YELLOW|BLUE]', 
+        'info' => 'TERMINAL COLOR MODE',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 1,
@@ -75,8 +75,8 @@ return [
     ],
     [
         'cmd' => 'TERM', 
-        'input' => '<DEC-VT100|IBM-3270>', 
-        'info' => 'change terminal mode',
+        'input' => '[DEC-VT100|IBM-3270]', 
+        'info' => 'CHANGE TERMINAL MODE',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 1,
@@ -85,7 +85,7 @@ return [
     [
         'cmd' => 'SCAN', 
         'input' => NULL, 
-        'info' => 'list connected nodes (alias: scan)',
+        'info' => 'LIST CONNECTED MAINFRAMES',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 0,
@@ -93,8 +93,8 @@ return [
     ],
     [
         'cmd' => 'CONNECT', 
-        'input' => '<host>', 
-        'info' => 'connect to host (alias: connect)',
+        'input' => '[MAINFRAME]', 
+        'info' => 'CONNECT TO MAINFRAME',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 0,
@@ -102,13 +102,13 @@ return [
     ],
     [
         'cmd' => 'MAIL', 
-        'input' => '[send|read|list|delete]', 
-        'info' => "email user: -s <subject> <user>[@host] < <body> \n
-        list emails: [-l] \n
-        read email: [-r] <ID> \n
-        sent emails: -s \n
-        sent email: -s <ID> \n
-        delete email: -d <ID>",
+        'input' => '[SEND|READ|LIST|DELETE]', 
+        'info' => "EMAIL ACCOUNT: -S <SUBJECT> <ACCOUNT>[@MAINFRAME] < <MESSAGE> \n
+        LIST EMAILS: [-L] \n
+        READ EMAIL: [-R] <ID> \n
+        SENT EMAILS: -S \n
+        SENT EMAIL: -S <ID> \n
+        DELETE EMAIL: -D <ID>",
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 0,
@@ -117,7 +117,7 @@ return [
     [
         'cmd' => 'DIR', 
         'input' => NULL, 
-        'info' => 'list files on host (alias: dir)',
+        'info' => 'LIST FILES ON MAINFRAME',
         'is_user' => 0,
         'is_host' => 1,
         'is_visitor' => 0,
@@ -125,8 +125,8 @@ return [
     ],
     [
         'cmd' => 'TYPE', 
-        'input' => '<filename>', 
-        'info' => 'print contents of file (alias: more, open)',
+        'input' => '[FILENAME]', 
+        'info' => 'PRINT CONTENTS OF FILE',
         'is_user' => 0,
         'is_host' => 1,
         'is_visitor' => 0,
@@ -134,8 +134,8 @@ return [
     ],
     [
         'cmd' => 'DEBUG', 
-        'input' => '[dump]', 
-        'info' => 'run memory dump on accounts.f',
+        'input' => '[DUMP]', 
+        'info' => 'RUN MEMORY DUMP (ADMIN ONLY)',
         'is_user' => 1,
         'is_host' => 0,
         'is_visitor' => 0,
