@@ -7,8 +7,9 @@ It is a full multi-user simulation, including simulated hosts. The simulation ta
 The main focus of the project is to educate about internet and terminal history and technology.
 
 # Fallout inspiration 
-- UOS = U/OS (Unified Operating System)
-- ZAX = VAX/OS (Virtual Advanced eXecution Operating System)
+- UOS = U/DOS (Unified Disk Operating System)
+- Mainframe = MU/DOS (Mainframe Unified Disk Operating System)
+- ZAX = CAX/OS (Virtual Advanced eXecution Operating System)
 - The Enclave = The SysCorp Syndicate (SCS) 
 - IBM = International Data Machines Corp. (IDM)
 - Vault-Tec = Corporate Security Systems Corp. (COP-SEC / CSC)
