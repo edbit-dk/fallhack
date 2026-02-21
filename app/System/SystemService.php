@@ -48,8 +48,11 @@ class SystemService
             $remote_ip = remote_ip();
 
             echo <<< EOT
+            UPLINK WITH CENTRAL USOC-NET INITIATED...
 
-            SUCCESS: SECURITY ACCESS CODE SEQUENCE ACCEPTED
+            SUCCESS: SECURITY ACCESS CODE SEQUENCE ACCEPTED.
+            WELCOME TO USOC, $remote_ip.
+
             EOT;
             exit;
 
@@ -66,6 +69,7 @@ class SystemService
 
             } else {
                 echo <<< EOT
+                UPLINK WITH CENTRAL USOC-NET INITIATED...
 
                 ERROR: ACCESS DENIED
                 EOT;
@@ -82,21 +86,18 @@ class SystemService
         Session::set($code, $access_code);
 
         echo <<< EOT
-        UPLINK WITH CENTRAL NETWORK INITIATED...
-        
-        =----------------------------------------------------=
-        | PROPERTY OF INTERNATIONAL DATA MACHINES (IDM CORP) |
-        =----------------------------------------------------=
+        =-------------------------------------------------------=
+        | WELCOME TO THE UNIFIED SYSTEMS OF CORPORATIONS (USOC) |
+        =-------------------------------------------------------=
 
         THIS TERMINAL IS USED TO INPUT COMMAND DATA 
-        FOR AUTHORIZED PERSONNEL ASSIGNED TO THE 
-        IDM CORPORATION. THIS TERMINAL ALSO ALLOWS 
-        ACCESS TO DEFCOM-NET.
+        FOR AUTHORIZED PERSONNEL OF USOC. THIS TERMINAL ALSO 
+        ALLOWS ACCESS TO USOC-NET.
 
-        -------------------------------------------------
+        --------------------------------------------------------
         ENTER SECURITY ACCESS CODE SEQUENCE: 
         [ {$access_code} ]
-        -------------------------------------------------
+        --------------------------------------------------------
 
         EOT;
     }
@@ -107,14 +108,21 @@ class SystemService
 
         $port = $_SERVER['SERVER_PORT'];
         $date = strtoupper(date('F jS, Y',));
+        $remote_ip = remote_ip();
 
         echo <<< EOT
-        CONNECTED TO CENTRAL NETOWRK PORT $port
-        $date
-
         =--------------------------------------------=
         | WELCOME TO ROBCOM INDUSTRIES (TM) TERMLINK |
         =--------------------------------------------=
+        
+        $remote_ip CONNECTED TO CENTRAL USOC-NET 
+        ON $date PORT $port.
+
+        SERVING US IS YOUR #1 PRIORITY.
+        ______________________________________________
+        
+        > REGISTER
+        > LOGON
 
         EOT;
     }
@@ -126,17 +134,13 @@ class SystemService
         $server_id = Host::id();
 
         echo <<< EOT
-        CONNECTED TO DATA-NET
-
-        =--------------------------------------------=
-        | ROBCOM INDUSTRIES VIRTUAL OPERATING SYSTEM |
-        |    COPYRIGHT 1975-1977 ROBCOM INDUSTRIES   |
-        =--------------------------------------------=
-        IDM CORP. (Armonk, New York)
-        MV/OS
+        =-------------------------------------------------=
+        | ROBCOM INDUSTRIES UNIFIED DISK OPERATING SYSTEM |
+        |      COPYRIGHT 1975-1977 ROBCOM INDUSTRIES      |
+        =-------------------------------------------------=
 
         WELCOME, $username ($last_login)
-        __________________________________________
+        ___________________________________________________
         EOT;
     }
 
@@ -157,7 +161,7 @@ class SystemService
         $notes = $host->notes;
         $mail = Mail::unread();
 
-        $system_info = "Welcome to $org, $location\n";
+        $system_info = "WELCOME TO $org, $location\n";
         $system_info .= isset($motd) ? "\n$motd\n" : null;
         $system_info .= isset($notes) ? "\n$notes\n" : null;
         $system_info .= isset($mail) ? "\n$mail" : null;
@@ -165,17 +169,17 @@ class SystemService
         $current_date = datetime($host->created_at, config('unix_timestamp'));
 
         echo <<< EOT
-        =--------------------------------------------=
-        | ROBCOM INDUSTRIES VIRTUAL OPERATING SYSTEM |
-        |    COPYRIGHT 1975-1977 ROBCOM INDUSTRIES   |
-        =--------------------------------------------=
-                         -SERVER $id-
+        =-------------------------------------------------=
+        | ROBCOM INDUSTRIES UNIFIED DISK OPERATING SYSTEM |
+        |       COPYRIGHT 1975-1977 ROBCOM INDUSTRIES     |
+        =-------------------------------------------------=
+                          -SERVER $id-
 
         SESSION: {$last_login} FROM $last_ip
         ($os): $current_date
 
         $system_info
-        ___________________________________________ 
+        ___________________________________________________ 
         EOT;
     }
 
@@ -188,14 +192,14 @@ class SystemService
         echo <<< EOT
         CONNECTED TO $host->hostname
 
-        =--------------------------------------------=
-        | ROBCOM INDUSTRIES VIRTUAL OPERATING SYSTEM |
-        |    COPYRIGHT 1975-1977 ROBCOM INDUSTRIES   |
-        =--------------------------------------------=
+        =-------------------------------------------------=
+        | ROBCOM INDUSTRIES UNIFIED DISK OPERATING SYSTEM |
+        |       COPYRIGHT 1975-1977 ROBCOM INDUSTRIES     |
+        =-------------------------------------------------=
         $org - $os     
 
         WELCOME, USER. AUTHORIZED PERSONNEL ONLY!
-        ______________________________________________
+        ___________________________________________________
 
         EOT;
     }
@@ -237,17 +241,17 @@ class SystemService
         Host::root();
 
         echo <<< EOT
-        =--------------------------------------------=
-        | ROBCOM INDUSTRIES VIRTUAL OPERATING SYSTEM |
-        |    COPYRIGHT 1975-1977 ROBCOM INDUSTRIES   |
-        =--------------------------------------------=
-                        -SERVER $id-
+        =-------------------------------------------------=
+        | ROBCOM INDUSTRIES UNIFIED DISK OPERATING SYSTEM |
+        |       COPYRIGHT 1975-1977 ROBCOM INDUSTRIES     |
+        =-------------------------------------------------=
+                            -SERVER $id-
 
         SESSION: {$last_login} FROM $last_ip
         ($os): $current_date
         
         $system_info
-        ___________________________________________ 
+        __________________________________________________ 
         EOT;
     }
 

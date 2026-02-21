@@ -38,7 +38,7 @@ return [
         'is_guest' => 1
     ],
     [
-        'cmd' => 'LOGOUT', 
+        'cmd' => 'LOGOFF', 
         'input' => NULL, 
         'info' => 'DISCONNECT FROM MAINFRAME (ALIAS: EXIT, DC, QUIT, CLOSE)',
         'is_user' => 1,
@@ -49,7 +49,7 @@ return [
     [
         'cmd' => 'VERSION', 
         'input' => NULL, 
-        'info' => 'SysCorp/OS V.1.9.84',
+        'info' => 'SYSCORP/OS V.1.9.84',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 1,
@@ -65,27 +65,9 @@ return [
         'is_guest' => 1
     ],
     [
-        'cmd' => 'COLOR', 
-        'input' => '[DEFAULT|CAI|CSC|DFC|GEC|FO]', 
-        'info' => 'TERMINAL COLOR MODE',
-        'is_user' => 1,
-        'is_host' => 1,
-        'is_visitor' => 1,
-        'is_guest' => 1
-    ],
-    [
-        'cmd' => 'TERM', 
-        'input' => '[DEC-VT100|IBM-3270]', 
-        'info' => 'CHANGE TERMINAL MODE',
-        'is_user' => 1,
-        'is_host' => 1,
-        'is_visitor' => 1,
-        'is_guest' => 1
-    ],
-    [
         'cmd' => 'SCAN', 
         'input' => NULL, 
-        'info' => 'LIST CONNECTED MAINFRAMES',
+        'info' => 'LIST CONLINK STATIONS',
         'is_user' => 1,
         'is_host' => 1,
         'is_visitor' => 0,

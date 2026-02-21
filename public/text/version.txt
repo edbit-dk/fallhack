@@ -1,3 +1,3 @@
-SysCorpOS 1.9.84
-Copyright (c) 1984
-All rights reserved.
+SYSCORP/OS 1.9.84
+COPYRIGHT (C) 1984
+ALL RIGHTS RESERVED.

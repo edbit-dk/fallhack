@@ -140,11 +140,13 @@ class HostController extends AppController
         }
 
         if(!$hosts) {
-            echo "ERROR: NO HOSTS FOUND\n";
+            echo "ERROR: NO COMLINKS FOUND\n";
             exit;
         } 
 
-        echo "SEARCHING COMLINKS...\n\nACTIVE STATIONS:\n";
+        $count = Host::count();
+
+        echo "SEARCHING COMLINKS...\n\n$count ACTIVE STATIONS:\n";
 
         foreach ($hosts as $host) {
 
