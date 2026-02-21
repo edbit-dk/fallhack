@@ -15,29 +15,32 @@ use App\Host\HostService as Host;
 
 class DebugController extends AppController
 {
-
     public function dump()
     {
         $host_password = Host::password();
         $host_admin = Host::admin();
         
-        Dump::words(wordlist(strlen( $host_password), Host::level(), 'word_list.txt'));
-        Dump::correct([$host_admin,  $host_password]);
-    
-        $header = "ROBCOM INDUSTRIES (TM) TERMLINK PROTOCOL\nENTER PASSWORD NOW";
+        // Initialiser ord
+        Dump::words(wordlist(strlen($host_password), Host::level(), 'word_list.txt'));
+        Dump::correct([$host_admin, $host_password]);
 
-        if($input = $this->data) {
-            $attemptsLeft = 4 - count(Dump::data());
-            $header .= "\nATTEMPT(s) LEFT: $attemptsLeft\n\n";
-        
-        if($input == 'reset') {
+        // Håndter input FØR vi genererer headeren
+        if ($input = $this->data) {
+            if ($input == 'reset') {
                 Dump::reset();
-                return Dump::memory(16, 12, $header);
+            } else {
+                Dump::input($input);
             }
-            Dump::input($input);
         }
 
+        // Nu kan vi sikkert tælle forsøg, da Dump::data() altid er et array
+        $attemptsLeft = 4 - count(Dump::data());
+        
+        $header = "ROBCOM INDUSTRIES (TM) TERMLINK PROTOCOL\n";
+        $header .= "ENTER PASSWORD NOW\n";
+        $header .= "ATTEMPT(s) LEFT: " . ($attemptsLeft < 0 ? 0 : $attemptsLeft) . "\n\n";
+
+        // Vis terminalen
         Dump::memory(16, 12, $header);
     }
-
 }

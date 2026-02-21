@@ -2,13 +2,11 @@
 
 namespace Lib;
 
-use \Lib\Session;
+use Lib\Session;
 
 class Dump 
 {
-
     public static $reset = false;
-    public static $default = [];
     public static $words = [];
     public static $correct = [];
     public static $dump = 'memory_dump';
@@ -32,25 +30,19 @@ class Dump
     }
 
     public static function memory($rows = 16, $cols = 12, $header = "") 
-{
+    {
         if(empty(self::$words)) {
-            // Default word list
             self::$words = ["HACK", "PASSWORD", "SECURITY", "VAULT", "ACCESS", "DENIED", "TERMINAL", "ADMIN", "PASS"];
         }
         
-        $words = array_merge(self::$words, self::$correct);
-        $randomize = self::$reset;
-        $hexBase = 0xF964; 
+        $words = array_map('strtoupper', array_merge(self::$words, self::$correct));
         
-        if ($randomize && Session::has(self::$dump)) {
+        if (self::$reset || !Session::has(self::$dump)) {
             Session::remove(self::$input);
-            Session::remove(self::$dump);
-        }
-        
-        $totalChars = $rows * $cols * 2;
-
-        if (!Session::has(self::$dump)) {
+            
+            $totalChars = $rows * $cols * 2;
             $symbols = ['<', '>', '[', ']', '{', '}', '(', ')', '/', '\\', '|', '?', '!', '@', '#', '$', '%', '^', '&', '*', '-', '_', '+', '=', '.', ',', ':', ';'];
+            
             $data = [];
             for ($i = 0; $i < $totalChars; $i++) {
                 $data[$i] = $symbols[array_rand($symbols)];
@@ -59,15 +51,22 @@ class Dump
             $usedPositions = [];
             foreach ($words as $word) {
                 $wordLen = strlen($word);
+                $attempts = 0;
                 
                 do {
+                    $attempts++;
+                    // Find tilfældig position
                     $pos = rand(0, $totalChars - $wordLen);
                     
-                    // Ensure word stays on one line to make copying easier
+                    // --- LINJE TJEK ---
+                    // Find ud af hvilken række ordet starter og slutter på
                     $startRow = floor($pos / $cols);
                     $endRow = floor(($pos + $wordLen - 1) / $cols);
                     
-                    $collision = ($startRow !== $endRow); 
+                    // Hvis de ikke er på samme række, er det en kollision (ordet knækker)
+                    $collision = ($startRow !== $endRow);
+                    
+                    // Hvis ordet holder sig på én linje, tjek for overlap med andre ord
                     if (!$collision) {
                         for ($j = $pos; $j < $pos + $wordLen; $j++) {
                             if (isset($usedPositions[$j])) {
@@ -76,37 +75,36 @@ class Dump
                             }
                         }
                     }
+                    
+                    // Sikkerhed: Stop hvis vi ikke kan finde plads efter 1000 forsøg
+                    if ($attempts > 1000) break; 
+                    
                 } while ($collision);
 
+                // Indsæt ordet
                 for ($j = 0; $j < $wordLen; $j++) {
                     $data[$pos + $j] = $word[$j];
                     $usedPositions[$pos + $j] = true;
                 }
             }
             Session::set(self::$dump, $data);
+            self::$reset = false;
         } else {
             $data = Session::get(self::$dump);
         }
 
-        // --- INCORRECT GUESS LOGIC ---
-        if (!Session::has(self::$input)) {
-            Session::set(self::$input, []);
-        }
-        
-        $wrongGuesses = Session::get(self::$input);
-        
+        $wrongGuesses = self::data();
         $dataString = implode('', $data);
+        
         foreach ($wrongGuesses as $wrongWord) {
             $replacement = str_repeat('.', strlen($wrongWord));
             $dataString = str_ireplace($wrongWord, $replacement, $dataString);
         }
         
         $displayData = str_split($dataString);
+        $hexBase = 0xF964; 
 
-        // --- OUTPUT GENERATION ---
-        // Start with the externally provided header
         $output = $header;
-
         for ($i = 0; $i < $rows; $i++) {
             $addrL = sprintf("0x%04X", $hexBase + ($i * $cols));
             $addrR = sprintf("0x%04X", $hexBase + (($rows + $i) * $cols));
@@ -114,7 +112,7 @@ class Dump
             $charsLeft = implode('', array_slice($displayData, $i * $cols, $cols));
             $charsRight = implode('', array_slice($displayData, ($rows + $i) * $cols, $cols));
 
-            $output .= "$addrL $charsLeft  $addrR $charsRight\n";
+            $output .= "$addrL $charsLeft   $addrR $charsRight\n";
         }
         
         echo $output;
@@ -122,21 +120,23 @@ class Dump
 
     public static function data()
     {
-        return Session::get(self::$input);
+        // Returnerer altid et array, så count() i din controller aldrig fejler
+        $val = Session::get(self::$input);
+        return is_array($val) ? $val : [];
     }
 
     public static function input($word) 
     {
-        $correct = self::$correct;
+        $input = strtoupper(trim($word));
+        $correctOnes = array_map('strtoupper', self::$correct);
 
-        $input = strtolower($word);
-        
-        if (in_array($input, $correct)) {
+        if (in_array($input, $correctOnes)) {
             return true;
         } else {
-            // Store incorrect guesses in session
-            if (!in_array($input, Session::get(self::$input))) {
-                Session::set(self::$input, array_merge(Session::get(self::$input), [$input]));
+            $wrongGuesses = self::data();
+            if (!in_array($input, $wrongGuesses) && $input !== '') {
+                $wrongGuesses[] = $input;
+                Session::set(self::$input, $wrongGuesses);
             }
             return false;
         }
