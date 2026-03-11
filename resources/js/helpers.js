@@ -44,11 +44,14 @@ function redirectTo(url, reload = false, timeout = 2500) {
 
 // Function to validate the string pattern
 function isUplinkCode(input) {
-    // Check if the input is 27 characters long and matches the alphanumeric pattern (allowing dashes)
-    const pattern = /^[A-Za-z0-9\-]{27}$/;
+    // 1. Fjern alle mellemrum og bindestreger for at få den rene kode
+    const cleanCode = input.replace(/[\s\-]/g, '');
 
-    // Test the input against the pattern
-    return pattern.test(input);
+    // 2. Tjek om den rene kode består af præcis 24 alfanumeriske tegn
+    // (Da din oprindelige kode var 27 tegn inkl. 3 bindestreger, er selve koden 24 tegn)
+    const pattern = /^[A-Za-z0-9]{24}$/;
+    
+    return pattern.test(cleanCode);
 }
 
 // Utility function to find the common prefix of an array of strings

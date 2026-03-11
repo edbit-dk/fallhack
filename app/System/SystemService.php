@@ -41,14 +41,14 @@ class SystemService
         // Check if the user is already blocked
         User::blocked();
 
-        if(Session::get($code) == $input) {
+        if(Session::get($code) == validateUplink($input)) {
             sleep(1);
             User::uplink(true);
 
             $remote_ip = remote_ip();
 
             echo <<< EOT
-            UPLINK WITH CENTRAL USOC/NET INITIATED...
+            UPLINK WITH CENTRAL USOCNET INITIATED...
 
             SECURITY ACCESS CODE SEQUENCE ACCEPTED.
             WELCOME TO USOC, $remote_ip.
@@ -68,7 +68,7 @@ class SystemService
 
             } else {
                 echo <<< EOT
-                UPLINK WITH CENTRAL USOC/NET INITIATED...
+                UPLINK WITH CENTRAL USOCNET INITIATED...
 
                 ERROR: ACCESS DENIED
                 EOT;
@@ -92,7 +92,7 @@ class SystemService
         THIS TERMINAL IS USED TO INPUT COMMAND DATA FOR 
         AUTHORIZED PERSONNEL OF USOC. 
         
-        THIS TERMINAL ALSO ALLOWS ACCESS TO USOC/NET.
+        THIS TERMINAL ALSO ALLOWS ACCESS TO USOCNET.
 
         --------------------------------------------------------
         ENTER SECURITY ACCESS CODE SEQUENCE: 
@@ -115,7 +115,7 @@ class SystemService
         | WELCOME TO SYSTEM CORPORATION (TM) TERMLINK |
         =---------------------------------------------=
         
-        $remote_ip CONNECTED TO CENTRAL USOC/NET 
+        $remote_ip CONNECTED TO CENTRAL USOCNET 
         ON $date PORT $port.
 
         USOC - SERVING US IS YOUR #1 PRIORITY!

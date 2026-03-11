@@ -32,8 +32,17 @@ $(document).ready(function() {
     $('#terminal').on('click', '.terminal-word', function() {
         const clickedText = $(this).text();
         const $input = $('#command-input');
+        const currentVal = $input.val().trim();
         
-        $input.val(clickedText);
+        // Hvis feltet er tomt, indsæt ordet. Hvis ikke, tilføj et mellemrum + ordet.
+        if (currentVal === "") {
+            $input.val(clickedText);
+        } else {
+            $input.val(currentVal + " " + clickedText);
+        }
+
+        $input[0].setSelectionRange($input.val().length, $input.val().length);
+
         $input.focus();
         
         // Valgfrit: Giv et lille visuelt "flash" når man klikker
@@ -145,11 +154,14 @@ function redirectTo(url, reload = false, timeout = 2500) {
 
 // Function to validate the string pattern
 function isUplinkCode(input) {
-    // Check if the input is 27 characters long and matches the alphanumeric pattern (allowing dashes)
-    const pattern = /^[A-Za-z0-9\-]{27}$/;
+    // 1. Fjern alle mellemrum og bindestreger for at få den rene kode
+    const cleanCode = input.replace(/[\s\-]/g, '');
 
-    // Test the input against the pattern
-    return pattern.test(input);
+    // 2. Tjek om den rene kode består af præcis 24 alfanumeriske tegn
+    // (Da din oprindelige kode var 27 tegn inkl. 3 bindestreger, er selve koden 24 tegn)
+    const pattern = /^[A-Za-z0-9]{24}$/;
+    
+    return pattern.test(cleanCode);
 }
 
 // Utility function to find the common prefix of an array of strings
@@ -549,7 +561,7 @@ function handlePasswordPromptResponse(response) {
 }
 // Function to load text into terminal one letter at a time with 80-character line breaks
 function loadText(text) {
-    let delay = 15; // En fast hastighed føles mere som en maskine end Math.random()
+    let delay = 5; // En fast hastighed føles mere som en maskine end Math.random()
     let currentIndex = 0;
     const preContainer = $('<pre>');
     $('#terminal').append(preContainer);
@@ -572,9 +584,9 @@ function loadText(text) {
                 currentWordSpan = null; 
             }
 
-            // OPTIMERING: Scroll kun for hvert 3. tegn for at spare kræfter,
+            // OPTIMERING: Scroll kun for hvert 5. tegn for at spare kræfter,
             // men det ser stadig flydende ud for brugeren.
-            if (currentIndex % 3 === 0) {
+            if (currentIndex % 5 === 0) {
                 scrollToBottom();
             }
 

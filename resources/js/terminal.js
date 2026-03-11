@@ -1,6 +1,6 @@
 // Function to load text into terminal one letter at a time with 80-character line breaks
 function loadText(text) {
-    let delay = 15; // En fast hastighed føles mere som en maskine end Math.random()
+    let delay = 5; // En fast hastighed føles mere som en maskine end Math.random()
     let currentIndex = 0;
     const preContainer = $('<pre>');
     $('#terminal').append(preContainer);
@@ -23,9 +23,9 @@ function loadText(text) {
                 currentWordSpan = null; 
             }
 
-            // OPTIMERING: Scroll kun for hvert 3. tegn for at spare kræfter,
+            // OPTIMERING: Scroll kun for hvert 5. tegn for at spare kræfter,
             // men det ser stadig flydende ud for brugeren.
-            if (currentIndex % 3 === 0) {
+            if (currentIndex % 5 === 0) {
                 scrollToBottom();
             }
 

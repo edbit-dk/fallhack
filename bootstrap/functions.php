@@ -29,6 +29,18 @@ function download_file($url, $path) {
     return $success !== false;
 }
 
+function validateUplink($input) {
+    // Fjern alt der IKKE er bogstaver eller tal
+    $clean = preg_replace('/[^A-Za-z0-9]/', '', $input);
+    
+    // Tjek om koden er præcis 24 tegn (da 27 - 3 bindestreger = 24)
+    if (strlen($clean) === 24) {
+        return true; // Adgang givet til USOC-NET
+    }
+    
+    return false; // Security Breach!
+}
+
 function closure_to_str($func)
 {
     $refl = new \ReflectionFunction($func); // get reflection object

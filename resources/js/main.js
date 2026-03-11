@@ -32,8 +32,17 @@ $(document).ready(function() {
     $('#terminal').on('click', '.terminal-word', function() {
         const clickedText = $(this).text();
         const $input = $('#command-input');
+        const currentVal = $input.val().trim();
         
-        $input.val(clickedText);
+        // Hvis feltet er tomt, indsæt ordet. Hvis ikke, tilføj et mellemrum + ordet.
+        if (currentVal === "") {
+            $input.val(clickedText);
+        } else {
+            $input.val(currentVal + " " + clickedText);
+        }
+
+        $input[0].setSelectionRange($input.val().length, $input.val().length);
+
         $input.focus();
         
         // Valgfrit: Giv et lille visuelt "flash" når man klikker
