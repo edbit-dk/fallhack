@@ -17,7 +17,7 @@ class UserFileTable extends User
         DB::schema()->dropIfExists((new self)->table);
 
         DB::schema()->create((new self)->table, function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('file_id');
             

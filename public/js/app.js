@@ -117,6 +117,7 @@ function handleResponse(response, timeout = 2500) {
     if (cleanResponse.startsWith('ACCESSING')) {
         setTimeout(function() { redirectTo('') }, timeout);
     }
+    
 
     if (cleanResponse.includes('LOGGING OUT...')) {
         setTimeout(function() { redirectTo('') }, timeout);
@@ -126,7 +127,7 @@ function handleResponse(response, timeout = 2500) {
         setTimeout(function() { redirectTo('') }, timeout);
     }
 
-    if (cleanResponse.includes('VERIFYING CREDENTIALS')) {
+    if (cleanResponse.includes('VERIFYING')) {
         sessionStorage.setItem('host', true);
         setTimeout(function() { redirectTo('') }, timeout);
     }
@@ -633,15 +634,15 @@ function themeConnection() {
     const connectionText = $('#connection').text().toUpperCase();
     
     // Vi tjekker hvilke ord der findes i strengen [@XXXX-NET]
-    if (connectionText.includes('DATA/NET')) {
+    if (connectionText.includes('IDM.NET')) {
         setTheme('IDM');
-    } else if (connectionText.includes('DEFCON/NET')) {
+    } else if (connectionText.includes('DEFCON.NET')) {
         setTheme('DFC');
-    } else if (connectionText.includes('SYSCORP/NET')) {
+    } else if (connectionText.includes('SYSCORP.NET')) {
         setTheme('SYN');
-    } else if (connectionText.includes('GEC/NET')) {
+    } else if (connectionText.includes('GEC.NET')) {
         setTheme('GEC');
-    } else if (connectionText.includes('FALLHACK/NET')) {
+    } else if (connectionText.includes('FALLOUT.ORG')) {
         setTheme('FAK');
     } else {
         setTheme('DEFAULT'); // Standard grøn

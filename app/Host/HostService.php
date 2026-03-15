@@ -64,7 +64,7 @@ class HostService
     public static function level()
     {
         if(self::data()) {
-            return self::data()->level_id;
+            return self::data()->level;
         }
 
         return false;

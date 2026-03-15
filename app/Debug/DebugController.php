@@ -19,9 +19,9 @@ class DebugController extends AppController
     {
         $host_password = Host::password();
         
-        // Initialiser ord
+        // Initialiser 
         Dump::words(wordlist(strlen($host_password), Host::level(), 'word_list.txt'));
-        Dump::correct(['ADMIN', $host_password]);
+        Dump::correct([Host::admin(), $host_password]);
 
         // Håndter input FØR vi genererer headeren
         if ($input = $this->data) {
@@ -35,7 +35,7 @@ class DebugController extends AppController
         // Nu kan vi sikkert tælle forsøg, da Dump::data() altid er et array
         $attemptsLeft = 4 - count(Dump::data());
         
-        $header = "ROBCOM INDUSTRIES (TM) TERMLINK PROTOCOL\n";
+        $header = "SYSCORP (TM) TERMLINK PROTOCOL\n";
         $header .= "PASSWORD REQUIRED!\n";
         $header .= "ATTEMPT(s) LEFT: " . ($attemptsLeft < 0 ? 0 : $attemptsLeft) . "\n\n";
 

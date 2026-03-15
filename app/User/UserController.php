@@ -31,7 +31,7 @@ class UserController extends AppController
                     'credits' => Auth::data()->credits + 5
                 ]);
 
-                echo "VERIFYING CREDENTIALS...";
+                echo "VERIFYING USER...";
                 exit;  
 
             } else {
@@ -99,7 +99,7 @@ class UserController extends AppController
         if(Auth::login($input['username'], $input['password'])) {
             Host::attempt(0, Auth::id());
             sleep(1);
-            echo 'ACCESS GRANTED!';
+            echo 'ACCESSING...';
             exit;  
 
         } else {

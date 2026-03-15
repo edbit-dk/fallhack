@@ -7,6 +7,7 @@ function handleResponse(response, timeout = 2500) {
     if (cleanResponse.startsWith('ACCESSING')) {
         setTimeout(function() { redirectTo('') }, timeout);
     }
+    
 
     if (cleanResponse.includes('LOGGING OUT...')) {
         setTimeout(function() { redirectTo('') }, timeout);
@@ -16,7 +17,7 @@ function handleResponse(response, timeout = 2500) {
         setTimeout(function() { redirectTo('') }, timeout);
     }
 
-    if (cleanResponse.includes('VERIFYING CREDENTIALS')) {
+    if (cleanResponse.includes('VERIFYING')) {
         sessionStorage.setItem('host', true);
         setTimeout(function() { redirectTo('') }, timeout);
     }

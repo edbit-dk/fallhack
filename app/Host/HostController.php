@@ -93,7 +93,7 @@ class HostController extends AppController
 
         if($host->credits > $user->credits) {
             echo <<<EOT
-            ERROR: ACCESS DENIED. CREDITS TOO LOW!
+            ERROR: ACCESS DENIED!
             EOT;
             exit;
         }
@@ -110,7 +110,7 @@ class HostController extends AppController
         sleep(1);
 
         if(!$host) {
-            echo 'ERROR: CONNECTION REFUSED';
+            echo 'ERROR: CONNECTION REFUSED!';
             exit;
         } else {
             $host = Host::data()->hostname;
@@ -166,7 +166,7 @@ class HostController extends AppController
             
             echo <<<EOT
 
-            $access $host->hostname: $host->org - $host->location (CREDITS $host->credits)
+            $access $host->hostname: $host->org - $host->location (LEVEL $host->level)
 
             EOT;
         }

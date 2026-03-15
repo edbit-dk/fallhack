@@ -48,7 +48,7 @@ class SystemService
             $remote_ip = remote_ip();
 
             echo <<< EOT
-            UPLINK WITH CENTRAL USOCNET INITIATED...
+            UPLINK WITH CENTRAL USOC.NET INITIATED...
 
             SECURITY ACCESS CODE SEQUENCE ACCEPTED.
             WELCOME TO USOC, $remote_ip.
@@ -68,7 +68,7 @@ class SystemService
 
             } else {
                 echo <<< EOT
-                UPLINK WITH CENTRAL USOCNET INITIATED...
+                UPLINK WITH CENTRAL USOC.NET INITIATED...
 
                 ERROR: ACCESS DENIED
                 EOT;
@@ -90,9 +90,8 @@ class SystemService
         =-------------------------------------------------------=
 
         THIS TERMINAL IS USED TO INPUT COMMAND DATA FOR 
-        AUTHORIZED PERSONNEL OF USOC. 
-        
-        THIS TERMINAL ALSO ALLOWS ACCESS TO USOCNET.
+        AUTHORIZED PERSONNEL OF USOC. THIS TERMINAL ALSO ALLOWS 
+        ACCESS TO USOC.NET
 
         --------------------------------------------------------
         ENTER SECURITY ACCESS CODE SEQUENCE: 
@@ -115,7 +114,7 @@ class SystemService
         | WELCOME TO SYSTEM CORPORATION (TM) TERMLINK |
         =---------------------------------------------=
         
-        $remote_ip CONNECTED TO CENTRAL USOCNET 
+        $remote_ip CONNECTED TO CENTRAL USOC.NET 
         ON $date PORT $port.
 
         USOC - SERVING US IS YOUR #1 PRIORITY!

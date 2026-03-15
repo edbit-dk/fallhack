@@ -19,6 +19,8 @@ class HostTable extends Host
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('level')->default(0);
+            $table->integer('credits')->default(0);
             $table->string('hostname')->unique();
             $table->string('password')->nullable();
             $table->text('welcome')->nullable();
@@ -30,7 +32,6 @@ class HostTable extends Host
             $table->text('notes')->nullable();
             $table->boolean('is_active')->default(1);
             $table->boolean('is_network')->default(0);
-            $table->integer('credits')->default(0);
             $table->datetimes();
         });
 
