@@ -9,28 +9,71 @@ class Dump
     public static $reset = false;
     public static $words = [];
     public static $correct = [];
-    public static $dump = 'memory_dump';
-    public static $input = 'memory_input';
+    public static $dump = 'MEMORY_DUMP';
+    public static $input = 'MEMORY_INPUT';
+    public static $removed = 'MEMORY_REMOVED';
+    public static $used_brackets = 'MEMORY_USED_BRACKETS';
 
     public static function reset()
     {
         self::$reset = true;
         Session::remove(self::$input);
         Session::remove(self::$dump);
+        Session::remove(self::$removed);
+        Session::remove(self::$used_brackets);
     }
 
     public static function words($words = [])
     {
-        self::$words = $words;
+        self::$words = array_map('strtoupper', $words);
     }
 
     public static function correct($words = [])
     {
-        self::$correct = $words;
+        self::$correct = array_map('strtoupper', $words);
+    }
+
+    public static function remove($word) 
+    {
+        $removed = Session::get(self::$removed) ?: [];
+        $word = strtoupper(trim($word));
+        if (!in_array($word, $removed) && $word !== '') {
+            $removed[] = $word;
+            Session::set(self::$removed, $removed);
+        }
+    }
+
+    public static function bracket($bracket_string) 
+    {
+        $used = Session::get(self::$used_brackets) ?: [];
+        // Brug trim for at sikre, at ingen usynlige newline-tegn ødelægger matchet
+        $bracket_string = trim($bracket_string);
+        
+        if (!in_array($bracket_string, $used) && $bracket_string !== '') {
+            $used[] = $bracket_string;
+            Session::set(self::$used_brackets, $used);
+        }
+    }
+
+    public static function match($guess, $correct) 
+    {
+        $score = 0;
+        $guess = strtoupper(trim($guess));
+        $correct = strtoupper(trim($correct));
+        $len = min(strlen($guess), strlen($correct));
+        
+        for ($i = 0; $i < $len; $i++) {
+            if (isset($guess[$i]) && isset($correct[$i]) && $guess[$i] === $correct[$i]) {
+                $score++;
+            }
+        }
+        return $score;
     }
 
     public static function memory($rows = 16, $cols = 12, $header = "") 
     {
+        $hexBase = 0xF964; // DEFINE BASE ADDRESS EARLY
+
         if(empty(self::$words)) {
             self::$words = ["HACK", "PASSWORD", "SECURITY", "VAULT", "ACCESS", "DENIED", "TERMINAL", "ADMIN", "PASS"];
         }
@@ -39,7 +82,6 @@ class Dump
         
         if (self::$reset || !Session::has(self::$dump)) {
             Session::remove(self::$input);
-            
             $totalChars = $rows * $cols * 2;
             $symbols = ['<', '>', '[', ']', '{', '}', '(', ')', '/', '\\', '|', '?', '!', '@', '#', '$', '%', '^', '&', '*', '-', '_', '+', '=', '.', ',', ':', ';'];
             
@@ -52,21 +94,12 @@ class Dump
             foreach ($words as $word) {
                 $wordLen = strlen($word);
                 $attempts = 0;
-                
                 do {
                     $attempts++;
-                    // Find tilfældig position
                     $pos = rand(0, $totalChars - $wordLen);
-                    
-                    // --- LINJE TJEK ---
-                    // Find ud af hvilken række ordet starter og slutter på
                     $startRow = floor($pos / $cols);
                     $endRow = floor(($pos + $wordLen - 1) / $cols);
-                    
-                    // Hvis de ikke er på samme række, er det en kollision (ordet knækker)
                     $collision = ($startRow !== $endRow);
-                    
-                    // Hvis ordet holder sig på én linje, tjek for overlap med andre ord
                     if (!$collision) {
                         for ($j = $pos; $j < $pos + $wordLen; $j++) {
                             if (isset($usedPositions[$j])) {
@@ -75,13 +108,9 @@ class Dump
                             }
                         }
                     }
-                    
-                    // Sikkerhed: Stop hvis vi ikke kan finde plads efter 1000 forsøg
                     if ($attempts > 1000) break; 
-                    
                 } while ($collision);
 
-                // Indsæt ordet
                 for ($j = 0; $j < $wordLen; $j++) {
                     $data[$pos + $j] = $word[$j];
                     $usedPositions[$pos + $j] = true;
@@ -93,35 +122,57 @@ class Dump
             $data = Session::get(self::$dump);
         }
 
-        $wrongGuesses = self::data();
         $dataString = implode('', $data);
         
-        foreach ($wrongGuesses as $wrongWord) {
-            $replacement = str_repeat('.', strlen($wrongWord));
-            $dataString = str_ireplace($wrongWord, $replacement, $dataString);
+        // --- 1. ERSTAT BRUGTE BRACKETS FØRST ---
+        // Det er vigtigt at gøre dette først, da de indeholder specialtegn
+        $usedBrackets = Session::get(self::$used_brackets) ?: [];
+        foreach ($usedBrackets as $bracket) {
+            if (!empty($bracket)) {
+                // Vi bruger str_replace for et præcist match på specialtegn
+                $replacement = str_repeat('.', strlen($bracket));
+                $dataString = str_replace((string)$bracket, $replacement, $dataString);
+            }
         }
-        
-        $displayData = str_split($dataString);
-        $hexBase = 0xF964; 
 
-        $output = $header;
+        // --- 2. ERSTAT BRUGTE ORD (DUDS FRA BRACKETS) ---
+        $removedWords = Session::get(self::$removed) ?: [];
+        foreach ($removedWords as $word) {
+            if (!empty($word)) {
+                $replacement = str_repeat('.', strlen($word));
+                $dataString = str_ireplace($word, $replacement, $dataString);
+            }
+        }
+
+        // --- 3. ERSTAT FORKERTE GÆT (INPUTS FRA BRUGEREN) ---
+        $wrongGuesses = self::data();
+        foreach ($wrongGuesses as $wrong) {
+            if (!empty($wrong)) {
+                $replacement = str_repeat('.', strlen($wrong));
+                $dataString = str_ireplace($wrong, $replacement, $dataString);
+            }
+        }
+
+
+        $displayData = str_split($dataString);
+
+        $output = strtoupper($header);
         for ($i = 0; $i < $rows; $i++) {
             $addrL = sprintf("0x%04X", $hexBase + ($i * $cols));
             $addrR = sprintf("0x%04X", $hexBase + (($rows + $i) * $cols));
-
+            
             $charsLeft = implode('', array_slice($displayData, $i * $cols, $cols));
             $charsRight = implode('', array_slice($displayData, ($rows + $i) * $cols, $cols));
-
+            
             $output .= "$addrL $charsLeft   $addrR $charsRight\n";
         }
-        
         echo $output;
     }
 
     public static function data()
     {
-        // Returnerer altid et array, så count() i din controller aldrig fejler
-        $val = Session::get(self::$input);
+       $val = Session::get(self::$input);
+        // Hvis $val er null eller ikke et array, returner et tomt array []
         return is_array($val) ? $val : [];
     }
 
@@ -129,12 +180,11 @@ class Dump
     {
         $input = strtoupper(trim($word));
         $correctOnes = array_map('strtoupper', self::$correct);
-
         if (in_array($input, $correctOnes)) {
             return true;
         } else {
             $wrongGuesses = self::data();
-            if (!in_array($input, $wrongGuesses) && $input !== '') {
+            if ($input !== '' && !in_array($input, $wrongGuesses)) {
                 $wrongGuesses[] = $input;
                 Session::set(self::$input, $wrongGuesses);
             }

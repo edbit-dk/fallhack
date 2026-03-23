@@ -28,26 +28,39 @@ $(document).ready(function() {
     //Check commands available
     autoHelp();
 
-    // Gør det muligt at klikke på alle ord, der er genereret
-    $('#terminal').on('click', '.terminal-word', function() {
-        const clickedText = $(this).text();
+    // Vi lytter nu på både .terminal-word og .terminal-bracket
+    $('#terminal').on('click', '.terminal-word, .terminal-bracket', function() {
+        const $this = $(this);
+        const clickedText = $this.text();
         const $input = $('#command-input');
-        const currentVal = $input.val().trim();
         
-        // Hvis feltet er tomt, indsæt ordet. Hvis ikke, tilføj et mellemrum + ordet.
-        if (currentVal === "") {
+        // Tjek om det er en bracket-sekvens eller et ord
+        if ($this.hasClass('terminal-bracket')) {
+            // Fallout-logik: Brackets sendes ofte direkte til systemet 
+            // for at fjerne "duds" eller nulstille forsøg med det samme.
             $input.val(clickedText);
-        } else {
-            $input.val(currentVal + " " + clickedText);
-        }
+            
+            // Valgfrit: Trigger submit automatisk for brackets, 
+            // da de i Fallout kører med det samme uden Enter.
+            $('#terminal-form').submit(); 
 
-        $input[0].setSelectionRange($input.val().length, $input.val().length);
+            // Gør den ubrugelig efter klik (ligesom i Fallout)
+        $this.removeClass('terminal-bracket clickable').css('opacity', '0.5');
+        } else {
+            // Din eksisterende logik for ord
+            const currentVal = $input.val().trim();
+            if (currentVal === "") {
+                $input.val(clickedText);
+            } else {
+                $input.val(currentVal + " " + clickedText);
+            }
+        }
 
         $input.focus();
         
-        // Valgfrit: Giv et lille visuelt "flash" når man klikker
-        $(this).css('background-color', '#00ff00').delay(100).queue(function(next){
-            $(this).css('background-color', '');
+        // Din fede flash-effekt
+        $this.css('background-color', '#00ff00').delay(100).queue(function(next){
+            $this.css('background-color', '');
             next();
         });
     });
